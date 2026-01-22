@@ -1,0 +1,28 @@
+{
+  "rewrites": [
+    {
+      "source": "/api/fastemote",
+      "destination": "http://92.118.206.166:30300/fastemote"
+    },
+    {
+      "source": "/api/join",
+      "destination": "http://92.118.206.166:30300/join"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
+  ],
+  "headers": [
+    {
+      "source": "/index.html",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=0, must-revalidate"
+        }
+      ]
+    }
+  ]
+}
+

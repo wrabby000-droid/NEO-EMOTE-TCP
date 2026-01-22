@@ -1,0 +1,3483 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>DEV-/-SOJIB HOSAIN</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+/* আপনার existing CSS styles এখানে রেখে দিন */
+:root {
+    --gap: 10px;
+    --cols: 8;
+    --primary-glow: #FFD700;
+    --secondary-glow: #FF6B9D;
+    --accent-blue: #00D4FF;
+    --accent-purple: #B026FF;
+}
+
+* {
+    box-sizing: border-box
+}
+
+body {
+    font-family: Inter,Segoe UI,Arial,sans-serif;
+    margin: 0;
+    background: #0a0515;
+    background-image: 
+        radial-gradient(circle at 20% 50%, rgba(255, 107, 157, 0.15) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(0, 212, 255, 0.15) 0%, transparent 50%),
+        radial-gradient(circle at 40% 20%, rgba(176, 38, 255, 0.12) 0%, transparent 50%),
+        radial-gradient(circle at 60% 40%, rgba(255, 215, 0, 0.1) 0%, transparent 50%);
+    background-size: 200% 200%;
+    animation: gradientShift 15s ease infinite;
+    color: #e0e0e0;
+    overflow: hidden;
+    height: 100vh;
+    position: relative;
+}
+
+@keyframes gradientShift {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    z-index: 1;
+}
+
+h1 {
+    margin: 0 0 14px;
+    font-weight: 700;
+    background: linear-gradient(135deg, #FFD700, #FF6B9D, #00D4FF, #B026FF);
+    background-size: 300% 300%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: rainbowText 4s ease infinite, glow 3s ease-in-out infinite alternate;
+    position: relative;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+@keyframes rainbowText {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+}
+
+@keyframes glow {
+    from { filter: drop-shadow(0 0 8px rgba(255, 215, 0, 0.8)) drop-shadow(0 0 15px rgba(255, 107, 157, 0.5)); }
+    to { filter: drop-shadow(0 0 15px rgba(255, 215, 0, 1)) drop-shadow(0 0 25px rgba(0, 212, 255, 0.7)); }
+}
+
+.content {
+    display: flex;
+    gap: 24px;
+    align-items: flex-start;
+    flex: 1;
+    overflow: hidden
+}
+
+.sidebar {
+    width: 360px;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column
+}
+
+.mainarea {
+    flex: 1;
+    overflow-y: auto;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    padding-top: 4px;
+    position: relative;
+    z-index: 2;
+}
+
+.mainarea::-webkit-scrollbar {
+    width: 0px;
+    background: transparent
+}
+
+.mainarea {
+    scrollbar-width: none;
+    -ms-overflow-style: none
+}
+
+.categories {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    padding: 16px;
+    background: rgba(30, 15, 50, 0.4);
+    border: 1px solid rgba(255, 215, 0, 0.3);
+    border-radius: 16px;
+    margin-bottom: 10px;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    box-shadow: 
+        0 8px 32px rgba(0, 0, 0, 0.4),
+        0 0 0 1px rgba(255, 215, 0, 0.1),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.categories:hover {
+    border-color: rgba(255, 107, 157, 0.5);
+    box-shadow: 
+        0 12px 40px rgba(0, 0, 0, 0.6),
+        0 0 0 1px rgba(255, 107, 157, 0.2),
+        0 0 40px rgba(255, 107, 157, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.15);
+    transform: translateY(-2px);
+}
+
+.catbtn {
+    padding: 10px 18px;
+    border-radius: 12px;
+    border: 1px solid rgba(176, 38, 255, 0.3);
+    background: rgba(30, 18, 53, 0.6);
+    color: #c9a8e8;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 600;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+    backdrop-filter: blur(10px);
+}
+
+.catbtn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+    transition: left 0.5s;
+}
+
+.catbtn:hover::before {
+    left: 100%;
+}
+
+.catbtn:hover {
+    background: rgba(42, 26, 69, 0.8);
+    border-color: #B026FF;
+    color: #f3e8ff;
+    transform: translateY(-2px) scale(1.05);
+    box-shadow: 0 4px 15px rgba(176, 38, 255, 0.4);
+}
+
+.catbtn.active {
+    background: linear-gradient(135deg, #FFD700, #FF6B9D, #00D4FF);
+    background-size: 200% 200%;
+    animation: gradientFlow 3s ease infinite;
+    color: #0a0515;
+    border-color: #FFD700;
+    font-weight: 700;
+    box-shadow: 
+        0 0 20px rgba(255, 215, 0, 0.8),
+        0 0 40px rgba(255, 107, 157, 0.5),
+        0 4px 15px rgba(0, 0, 0, 0.3);
+    transform: scale(1.05);
+}
+
+@keyframes gradientFlow {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1.05); }
+    50% { transform: scale(1.08); }
+}
+
+.controls {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    flex-wrap: nowrap;
+    align-items: flex-start;
+    margin-bottom: 18px
+}
+
+.teamgroup {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    min-width: 220px
+}
+
+.teamrow {
+    display: flex;
+    align-items: center;
+    gap: 10px
+}
+
+.label {
+    display: block;
+    font-size: 13px;
+    color: #c9a8e8;
+    margin-bottom: 6px
+}
+
+input {
+    display: block;
+    padding: 12px 16px;
+    border-radius: 12px;
+    border: 1.5px solid rgba(176, 38, 255, 0.3);
+    background: rgba(30, 18, 53, 0.5);
+    color: #e0e0e0;
+    outline: none;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    backdrop-filter: blur(10px);
+    font-weight: 500;
+}
+
+input:focus {
+    border-color: #00D4FF;
+    box-shadow: 
+        0 0 20px rgba(0, 212, 255, 0.4),
+        0 0 40px rgba(0, 212, 255, 0.2),
+        inset 0 0 20px rgba(0, 212, 255, 0.1);
+    background: rgba(37, 24, 63, 0.7);
+    transform: translateY(-1px);
+}
+
+input::placeholder {
+    color: #7c5aa8;
+    opacity: 0.7;
+}
+
+.uids {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0,1fr));
+    gap: 10px;
+    min-width: 220px;
+    align-items: center;
+    margin-right: 12px;
+    width: 100%;
+}
+
+.uids input {
+    width: 100%;
+    box-sizing: border-box
+}
+
+.uidlabel {
+    font-size: 13px;
+    color: #c9a8e8
+}
+
+.buttons {
+    display: flex;
+    gap: 10px
+}
+
+/* Toggle switch */
+.switch {
+    display: inline-block;
+    position: relative;
+    width: 46px;
+    height: 26px
+}
+
+.switch input {
+    display: none
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: #2a1a45;
+    border-radius: 20px;
+    border: 1px solid #4c2a6a;
+    transition: .18s
+}
+
+.slider:before {
+    content: "";
+    position: absolute;
+    height: 20px;
+    width: 20px;
+    left: 3px;
+    top: 2.5px;
+    background: #fff;
+    border-radius: 50%;
+    transition: .18s
+}
+
+.switch input:checked + .slider {
+    background: linear-gradient(180deg,#FFD700,#FFA500);
+    border-color: #FFD700
+}
+
+.switch input:checked + .slider:before {
+    transform: translateX(20px)
+}
+
+button {
+    padding: 12px 20px;
+    border-radius: 12px;
+    border: 0;
+    background: linear-gradient(135deg, #FFD700, #FF6B9D, #00D4FF);
+    background-size: 200% 200%;
+    animation: buttonGradient 3s ease infinite;
+    color: #0a0515;
+    cursor: pointer;
+    box-shadow: 
+        0 8px 25px rgba(255, 215, 0, 0.5),
+        0 0 30px rgba(255, 107, 157, 0.3);
+    font-weight: 700;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 12px;
+}
+
+button::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.3);
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s;
+}
+
+button:hover::before {
+    width: 300px;
+    height: 300px;
+}
+
+button:hover {
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 
+        0 12px 35px rgba(255, 215, 0, 0.7),
+        0 0 50px rgba(255, 107, 157, 0.5),
+        0 0 70px rgba(0, 212, 255, 0.3);
+}
+
+button:active {
+    transform: translateY(-1px) scale(1.02);
+}
+
+@keyframes buttonGradient {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+}
+
+button#leave {
+    background: linear-gradient(180deg,#ff7a7a,#d64545);
+    color: #fff
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(var(--cols),1fr);
+    gap: var(--gap);
+    padding-top: 4px
+}
+
+.cell {
+    background: rgba(30, 18, 53, 0.4);
+    border: 1.5px solid rgba(176, 38, 255, 0.2);
+    border-radius: 16px;
+    overflow: hidden;
+    text-align: center;
+    padding: 12px;
+    box-shadow: 
+        0 4px 20px rgba(0, 0, 0, 0.4),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    backdrop-filter: blur(10px);
+}
+
+.cell::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(255, 215, 0, 0.1), rgba(255, 107, 157, 0.1), rgba(0, 212, 255, 0.1));
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    pointer-events: none;
+    border-radius: 16px;
+}
+
+.cell::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255, 215, 0, 0.1), transparent 70%);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    pointer-events: none;
+}
+
+.cell:hover::before,
+.cell:hover::after {
+    opacity: 1;
+}
+
+.cell:hover {
+    border-color: #FFD700;
+    border-width: 2px;
+    box-shadow: 
+        0 8px 30px rgba(255, 215, 0, 0.4),
+        0 0 50px rgba(255, 107, 157, 0.3),
+        0 0 70px rgba(0, 212, 255, 0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    transform: translateY(-4px) scale(1.03);
+    background: rgba(30, 18, 53, 0.6);
+}
+
+.cell img {
+    width: 100%;
+    height: 80px;
+    object-fit: contain;
+    cursor: pointer;
+    transition: transform .12s ease,filter .12s ease
+}
+
+.cell img:hover {
+    transform: translateY(-6px) scale(1.02);
+    filter: brightness(1.1)
+}
+
+/* caption removed per request */
+footer {
+    margin-top: 12px;
+    padding: 16px;
+    border-radius: 12px;
+    background: rgba(30, 18, 53, 0.4);
+    border: 1px solid rgba(255, 215, 0, 0.2);
+    backdrop-filter: blur(10px);
+    box-shadow: 
+        0 4px 20px rgba(0, 0, 0, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    flex-shrink: 0;
+    text-align: center;
+}
+
+.credit strong {
+    font-weight: 800;
+    background: linear-gradient(135deg, #FFD700, #FF6B9D, #00D4FF);
+    background-size: 200% 200%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: gradientFlow 3s ease infinite;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-size: 14px;
+}
+
+@media (max-width: 1100px) {
+    :root {
+        --cols:6
+    }
+}
+
+@media (max-width: 800px) {
+    :root {
+        --cols:4
+    }
+}
+
+@media (max-width: 900px) {
+    /* Mobile scrolling fixes */
+    body {
+        overflow-x: hidden;
+        overflow-y: auto;
+        height: auto;
+        min-height: 100vh;
+        -webkit-overflow-scrolling: touch;
+    }
+    
+    .container {
+        height: auto;
+        min-height: 100vh;
+        padding: 15px;
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .content {
+        flex-direction:column;
+        overflow: visible;
+        flex: 1 1 auto;
+        min-height: 0;
+    }
+
+    .sidebar {
+        width: 100%;
+        overflow: visible;
+        flex-shrink: 0;
+    }
+
+    .mainarea {
+        width: 100%;
+        overflow-y: visible;
+        height: auto;
+        min-height: auto;
+        -webkit-overflow-scrolling: touch;
+        flex: 1 1 auto;
+    }
+    
+    .grid {
+        padding-bottom: 20px;
+    }
+}
+
+@media (max-width: 640px) {
+    .controls {
+        flex-direction:column
+    }
+
+    .uids {
+        grid-template-columns: repeat(2,1fr);
+        width: 100%
+    }
+
+    .teamgroup {
+        width: 100%
+    }
+}
+
+@media (max-width: 420px) {
+    :root {
+        --cols:2
+    }
+}
+
+/* Mode Selector Styles */
+.mode-selector {
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.mode-buttons {
+    display: flex;
+    gap: 8px;
+    width: 100%;
+}
+
+.modebtn {
+    flex: 1;
+    padding: 12px 16px;
+    border-radius: 12px;
+    border: 1.5px solid rgba(176, 38, 255, 0.3);
+    background: rgba(30, 18, 53, 0.6);
+    color: #c9a8e8;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 600;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    position: relative;
+    overflow: hidden;
+    backdrop-filter: blur(10px);
+}
+
+.modebtn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+    transition: left 0.5s;
+}
+
+.modebtn:hover::before {
+    left: 100%;
+}
+
+.modebtn:hover {
+    background: rgba(42, 26, 69, 0.8);
+    border-color: #B026FF;
+    color: #f3e8ff;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(176, 38, 255, 0.4);
+}
+
+.modebtn.active {
+    background: linear-gradient(135deg, #FFD700, #FF6B9D, #00D4FF);
+    background-size: 200% 200%;
+    animation: gradientFlow 3s ease infinite;
+    color: #0a0515;
+    border-color: #FFD700;
+    font-weight: 700;
+    box-shadow: 
+        0 0 20px rgba(255, 215, 0, 0.8),
+        0 0 40px rgba(255, 107, 157, 0.5),
+        0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+/* Particles Container */
+#particles-js {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: 0;
+    pointer-events: none;
+}
+
+/* Enhanced Status */
+.status {
+    margin: 8px 0;
+    padding: 14px 18px;
+    border-radius: 14px;
+    background: rgba(37, 24, 63, 0.5);
+    border: 1.5px solid rgba(176, 38, 255, 0.3);
+    color: #e0e0e0;
+    font-size: 13px;
+    min-height: 50px;
+    box-shadow: 
+        inset 0 2px 10px rgba(0, 0, 0, 0.4),
+        0 0 25px rgba(255, 215, 0, 0.15),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    overflow-wrap: break-word;
+    position: relative;
+    backdrop-filter: blur(15px);
+}
+
+.status::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, 
+        transparent, 
+        #FFD700, 
+        #FF6B9D, 
+        #00D4FF, 
+        #B026FF, 
+        transparent);
+    background-size: 200% 100%;
+    animation: shimmer 3s linear infinite;
+    opacity: 0.8;
+}
+
+@keyframes shimmer {
+    0% { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+}
+
+/* Sidebar enhancements */
+.sidebar {
+    width: 360px;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    z-index: 2;
+}
+
+.sidebar::before {
+    content: '';
+    position: absolute;
+    top: -10px;
+    left: -10px;
+    right: -10px;
+    bottom: -10px;
+    background: linear-gradient(135deg, 
+        rgba(255, 215, 0, 0.08), 
+        rgba(255, 107, 157, 0.08), 
+        rgba(0, 212, 255, 0.08), 
+        transparent);
+    border-radius: 16px;
+    z-index: -1;
+    pointer-events: none;
+    animation: sidebarGlow 4s ease infinite;
+}
+
+@keyframes sidebarGlow {
+    0%, 100% { opacity: 0.5; }
+    50% { opacity: 0.8; }
+}
+
+/* Login Modal Styles */
+.login-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(26, 15, 46, 0.95);
+    backdrop-filter: blur(10px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+#login-particles-js {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: 0;
+    pointer-events: none;
+}
+
+.login-container {
+    background: rgba(30, 15, 50, 0.7);
+    border: 2px solid rgba(255, 215, 0, 0.3);
+    border-radius: 24px;
+    padding: 40px;
+    width: 90%;
+    max-width: 400px;
+    box-shadow: 
+        0 20px 60px rgba(0, 0, 0, 0.6),
+        0 0 60px rgba(255, 215, 0, 0.3),
+        0 0 100px rgba(255, 107, 157, 0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    position: relative;
+    z-index: 1001;
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+}
+
+.login-container h2 {
+    margin: 0 0 10px;
+    font-weight: 600;
+    background: linear-gradient(135deg, #FFD700, #FFA500);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-align: center;
+    font-size: 28px;
+}
+
+.login-subtitle {
+    text-align: center;
+    color: #c9a8e8;
+    margin: 0 0 30px;
+    font-size: 14px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    font-size: 13px;
+    color: #c9a8e8;
+    margin-bottom: 8px;
+    font-weight: 500;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 12px 14px;
+    border-radius: 10px;
+    border: 1px solid #4c2a6a;
+    background: #1e1235;
+    color: #f3e8ff;
+    outline: none;
+    transition: all 0.2s ease;
+    font-size: 14px;
+    box-sizing: border-box;
+}
+
+.form-group input:focus {
+    border-color: #FFD700;
+    box-shadow: 0 0 10px rgba(255, 215, 0, 0.4);
+    background: #25183f;
+}
+
+.auth-btn {
+    width: 100%;
+    padding: 12px;
+    border-radius: 10px;
+    border: 0;
+    background: linear-gradient(180deg, #FFD700, #FFA500);
+    color: #1a0f2e;
+    cursor: pointer;
+    box-shadow: 0 6px 18px rgba(26, 15, 46, 0.6);
+    font-weight: 600;
+    font-size: 14px;
+    transition: all 0.2s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-top: 10px;
+}
+
+.auth-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(255, 215, 0, 0.7);
+}
+
+.auth-btn:active {
+    transform: translateY(0);
+}
+
+.auth-error {
+    background: rgba(254, 215, 215, 0.1);
+    border: 1px solid #fed7d7;
+    color: #fed7d7;
+    padding: 12px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    font-size: 13px;
+    text-align: center;
+}
+
+.auth-switch {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 13px;
+    color: #c9a8e8;
+}
+
+.switch-link {
+    background: none;
+    border: none;
+    color: #FFD700;
+    cursor: pointer;
+    text-decoration: underline;
+    font-size: 13px;
+    padding: 0;
+    margin-left: 5px;
+    font-weight: 500;
+    transition: color 0.2s ease;
+}
+
+.switch-link:hover {
+    color: #FFA500;
+}
+
+/* User Header Styles */
+.user-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 14px;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.user-header h1 {
+    margin: 0;
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.user-info span {
+    color: #ffffff;
+    font-size: 13px;
+}
+
+.logout-btn {
+    padding: 10px 20px;
+    border-radius: 12px;
+    border: 1.5px solid rgba(254, 107, 107, 0.3);
+    background: rgba(30, 18, 53, 0.6);
+    color: #c9a8e8;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 600;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    backdrop-filter: blur(10px);
+    position: relative;
+    overflow: hidden;
+}
+
+.logout-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(254, 215, 215, 0.2), transparent);
+    transition: left 0.5s;
+}
+
+.logout-btn:hover::before {
+    left: 100%;
+}
+
+.logout-btn:hover {
+    background: rgba(254, 215, 215, 0.15);
+    border-color: #fe6b6b;
+    color: #fed7d7;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(254, 107, 107, 0.4);
+}
+
+@media (max-width: 640px) {
+    .login-container {
+        padding: 30px 20px;
+    }
+    
+    .user-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .user-info {
+        width: 100%;
+        justify-content: space-between;
+    }
+}
+
+/* Welcome Modal Styles */
+#welcome-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(26, 15, 46, 0.95);
+    backdrop-filter: blur(10px);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+    animation: fadeIn 0.3s ease;
+}
+
+#welcome-modal-overlay.show {
+    display: flex;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+#welcome-modal {
+    background: rgba(30, 15, 50, 0.7);
+    border: 2px solid rgba(255, 215, 0, 0.3);
+    border-radius: 24px;
+    padding: 40px;
+    width: 90%;
+    max-width: 500px;
+    box-shadow: 
+        0 20px 60px rgba(0, 0, 0, 0.6),
+        0 0 60px rgba(255, 215, 0, 0.3),
+        0 0 100px rgba(255, 107, 157, 0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    position: relative;
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    animation: slideUp 0.4s ease;
+    text-align: center;
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(30px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+#welcome-modal h2 {
+    margin: 0 0 12px;
+    font-weight: 600;
+    background: linear-gradient(135deg, #FFD700, #FFA500);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-size: 32px;
+}
+
+#welcome-modal p {
+    margin: 0 0 30px;
+    color: #c9a8e8;
+    font-size: 16px;
+    line-height: 1.6;
+}
+
+.modal-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 24px;
+}
+
+.modal-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 14px 20px;
+    border-radius: 10px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 15px;
+    transition: all 0.3s ease;
+    border: 1px solid transparent;
+}
+
+.modal-button.discord {
+    background: linear-gradient(135deg, #5865F2, #4752C4);
+    color: #ffffff;
+    border-color: #5865F2;
+}
+
+.modal-button.discord:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(88, 101, 242, 0.4);
+    background: linear-gradient(135deg, #4752C4, #3d47a3);
+}
+
+.modal-button.telegram {
+    background: linear-gradient(135deg, #0088cc, #006ba3);
+    color: #ffffff;
+    border-color: #0088cc;
+}
+
+.modal-button.telegram:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 136, 204, 0.4);
+    background: linear-gradient(135deg, #006ba3, #005a8a);
+}
+
+.modal-button.youtube {
+    background: linear-gradient(135deg, #FF0000, #cc0000);
+    color: #ffffff;
+    border-color: #FF0000;
+}
+
+.modal-button.youtube:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(255, 0, 0, 0.4);
+    background: linear-gradient(135deg, #cc0000, #aa0000);
+}
+
+.modal-button i {
+    font-size: 18px;
+}
+
+#close-modal-btn {
+    width: 100%;
+    padding: 12px 20px;
+    border-radius: 10px;
+    border: 0;
+    background: linear-gradient(180deg, #FFD700, #FFA500);
+    color: #1a0f2e;
+    cursor: pointer;
+    box-shadow: 0 6px 18px rgba(26, 15, 46, 0.6);
+    font-weight: 600;
+    font-size: 14px;
+    transition: all 0.2s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+#close-modal-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(255, 215, 0, 0.7);
+}
+
+#close-modal-btn:active {
+    transform: translateY(0);
+}
+
+@media (max-width: 640px) {
+    #welcome-modal {
+        padding: 30px 20px;
+    }
+    
+    #welcome-modal h2 {
+        font-size: 26px;
+    }
+    
+    .modal-buttons {
+        gap: 10px;
+    }
+    
+    .modal-button {
+        padding: 12px 16px;
+        font-size: 14px;
+    }
+}
+
+/* Device Info Styles */
+.device-info {
+    background: rgba(37, 24, 63, 0.5);
+    border: 1.5px solid rgba(0, 212, 255, 0.3);
+    border-radius: 12px;
+    padding: 12px 16px;
+    margin-top: 10px;
+    font-size: 12px;
+    color: #c9a8e8;
+    text-align: center;
+    backdrop-filter: blur(10px);
+}
+
+.device-info i {
+    color: #00D4FF;
+    margin-right: 6px;
+}
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+    <!-- Firebase SDKs -->
+    <script type="module">
+// Import the functions you need from the SDKs you need
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-analytics.js";
+import { getAuth } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+import { getFirestore, doc, getDoc, setDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+// Your web app's Firebase configuration
+const firebaseConfig = {
+  apiKey: "AIzaSyDzCLqIs7JKT-IAV3bAz8i8xul9UTH52LY",
+  authDomain: "neo100-89aba.firebaseapp.com",
+  databaseURL: "https://neo100-89aba-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "neo100-89aba",
+  storageBucket: "neo100-89aba.firebasestorage.app",
+  messagingSenderId: "247747894249",
+  appId: "1:247747894249:web:243dc542b215e9d04f8978",
+  measurementId: "G-LLV860J8KG"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);
+const auth = getAuth(app);
+const db = getFirestore(app);
+
+// Export for use in other modules
+window.firebaseApp = app;
+window.firebaseAuth = auth;
+window.firebaseAnalytics = analytics;
+window.firebaseDb = db;
+
+// Auth module code
+import { 
+  signInWithEmailAndPassword, 
+  signOut,
+  onAuthStateChanged 
+} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+
+// 🔹 Device ID তৈরি (Improved version)
+function getDeviceId() {
+    let deviceId = localStorage.getItem('neo_deviceId');
+    if (!deviceId) {
+        // Create a more stable device ID
+        const deviceData = navigator.userAgent + 
+                         navigator.language + 
+                         screen.width + 
+                         screen.height + 
+                         Intl.DateTimeFormat().resolvedOptions().timeZone;
+        
+        // Simple hash function for consistency
+        let hash = 0;
+        for (let i = 0; i < deviceData.length; i++) {
+            const char = deviceData.charCodeAt(i);
+            hash = ((hash << 5) - hash) + char;
+            hash = hash & hash; // Convert to 32bit integer
+        }
+        
+        deviceId = 'device_' + Math.abs(hash).toString(36);
+        localStorage.setItem('neo_deviceId', deviceId);
+    }
+    return deviceId;
+}
+
+// DOM elements
+const loginModal = document.getElementById('login-modal');
+const mainApp = document.getElementById('main-app');
+const loginForm = document.getElementById('login-form');
+const authError = document.getElementById('auth-error');
+const logoutBtn = document.getElementById('logout-btn');
+const userEmail = document.getElementById('user-email');
+
+// Show error message
+function showError(message) {
+  authError.textContent = message;
+  authError.style.display = 'block';
+  setTimeout(() => {
+    authError.style.display = 'none';
+  }, 5000);
+}
+
+// Login form handler with device check
+loginForm.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const email = document.getElementById('login-email').value;
+  const password = document.getElementById('login-password').value;
+  const deviceId = getDeviceId();
+  
+  try {
+    const userCredential = await signInWithEmailAndPassword(auth, email, password);
+    const user = userCredential.user;
+
+    // Check device authorization
+    const userRef = doc(db, "users", user.uid);
+    const docSnap = await getDoc(userRef);
+
+    if (docSnap.exists()) {
+      const savedDevice = docSnap.data().deviceId;
+      if (savedDevice && savedDevice !== deviceId) {
+        showError("⚠️ This account is already used on another device!");
+        await signOut(auth);
+        return;
+      } else {
+        // Update device ID if needed
+        await updateDoc(userRef, { 
+          deviceId: deviceId,
+          lastLogin: new Date().toISOString()
+        });
+      }
+    } else {
+      // First time login - create user document
+      await setDoc(userRef, { 
+        deviceId: deviceId,
+        email: user.email,
+        createdAt: new Date().toISOString(),
+        lastLogin: new Date().toISOString()
+      });
+    }
+
+    // Success - auth state change will handle UI update
+  } catch (error) {
+    showError(error.message || 'Failed to sign in. Please check your credentials.');
+  }
+});
+
+// Logout handler
+logoutBtn.addEventListener('click', async () => {
+  try {
+    await signOut(auth);
+    // Auth state change will handle UI update
+  } catch (error) {
+    showError('Failed to sign out');
+  }
+});
+   
+
+// Initialize particles for login modal
+function initLoginParticles() {
+  if (typeof particlesJS !== 'undefined') {
+    particlesJS('login-particles-js', {
+      particles: {
+        number: { value: 50, density: { enable: true, value_area: 800 } },
+        color: { value: '#FFD700' },
+        shape: { type: 'circle' },
+        opacity: { value: 0.3, random: true },
+        size: { value: 3, random: true },
+        line_linked: {
+          enable: true,
+          distance: 150,
+          color: '#FFD700',
+          opacity: 0.1,
+          width: 1
+        },
+        move: {
+          enable: true,
+          speed: 1,
+          direction: 'none',
+          random: true,
+          straight: false,
+          out_mode: 'out',
+          bounce: false
+        }
+      },
+      interactivity: {
+        detect_on: 'canvas',
+        events: {
+          onhover: { enable: true, mode: 'repulse' },
+          onclick: { enable: true, mode: 'push' },
+          resize: true
+        },
+        modes: {
+          repulse: { distance: 100, duration: 0.4 },
+          push: { particles_nb: 4 }
+        }
+      },
+      retina_detect: true
+    });
+  }
+}
+
+// Initialize login particles when DOM is ready
+document.addEventListener('DOMContentLoaded', () => {
+  // Small delay to ensure particles.js is loaded
+  setTimeout(() => {
+    // Initialize particles if modal is visible (not set to none)
+    const modalDisplay = window.getComputedStyle(loginModal).display;
+    if (modalDisplay !== 'none') {
+      initLoginParticles();
+    }
+  }, 200);
+});
+
+// Welcome modal functionality
+const welcomeModalOverlay = document.getElementById('welcome-modal-overlay');
+const closeModalBtn = document.getElementById('close-modal-btn');
+
+function showWelcomeModal() {
+  // Show modal on every reload when user is authenticated
+  if (welcomeModalOverlay) {
+    setTimeout(() => {
+      welcomeModalOverlay.classList.add('show');
+    }, 500); // Show after a short delay for smooth transition
+  }
+}
+
+function hideWelcomeModal() {
+  if (welcomeModalOverlay) {
+    welcomeModalOverlay.classList.remove('show');
+  }
+}
+
+if (closeModalBtn) {
+  closeModalBtn.addEventListener('click', hideWelcomeModal);
+}
+
+if (welcomeModalOverlay) {
+  welcomeModalOverlay.addEventListener('click', (e) => {
+    if (e.target === welcomeModalOverlay) {
+      hideWelcomeModal();
+    }
+  });
+}
+
+// Monitor auth state changes
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    // User is signed in
+    loginModal.style.display = 'none';
+    mainApp.style.display = 'flex';
+    userEmail.textContent = user.email;
+    
+    // Show welcome modal after login
+    showWelcomeModal();
+    
+    // Trigger app initialization event
+    window.dispatchEvent(new CustomEvent('userAuthenticated'));
+  } else {
+    // User is signed out
+    loginModal.style.display = 'flex';
+    mainApp.style.display = 'none';
+    userEmail.textContent = '';
+    
+    // Reset forms
+    loginForm.reset();
+    
+    // Hide welcome modal if visible
+    if (welcomeModalOverlay) {
+      welcomeModalOverlay.classList.remove('show');
+    }
+    
+    // Initialize particles when login modal is shown
+    setTimeout(() => {
+      initLoginParticles();
+    }, 100);
+    
+    // Trigger logout event
+    window.dispatchEvent(new CustomEvent('userLoggedOut'));
+  }
+});
+
+// Export auth state for use in app.js if needed
+window.auth = auth;
+    </script>
+  </head>
+  <body>
+    <div id="particles-js"></div>
+    
+    <!-- Login Modal -->
+    <div id="login-modal" class="login-modal">
+      <div id="login-particles-js"></div>
+      <div class="login-container">
+        <h2>NEO SOCIETY</h2>
+        <p class="login-subtitle">Please sign in to continue</p>
+        
+        <div id="auth-error" class="auth-error" style="display: none;"></div>
+        
+        <form id="login-form">
+          <div class="form-group">
+            <label for="login-email">Email</label>
+            <input type="email" id="login-email" placeholder="your@email.com" required>
+          </div>
+          <div class="form-group">
+            <label for="login-password">Password</label>
+            <input type="password" id="login-password" placeholder="••••••••" required>
+          </div>
+          <button type="submit" class="auth-btn" id="login-btn">Sign In</button>
+        </form>
+      </div>
+    </div>
+    
+    <!-- ===== POPUP MODAL SECTION ===== -->
+    <div id="welcome-modal-overlay">
+        <div id="welcome-modal">
+            <h2>Welcome!</h2>
+            <p>Join our community for updates and more tools.</p>
+            <div class="modal-buttons">
+                <a href="https://discord.gg/DHVAqMpPf9" target="_blank" class="modal-button discord">
+                    <i class="fab fa-discord"></i> Join Discord
+                </a>
+                <a href="" target="_blank" class="modal-button telegram">
+                    <i class="fab fa-telegram-plane"></i> Join Telegram
+                </a>
+                <a href="https://www.youtube.com/@neo.7700" target="_blank" class="modal-button youtube">
+                    <i class="fab fa-youtube"></i> Subscribe on YouTube
+                </a>
+            </div>
+            <button id="close-modal-btn">Continue to Site</button>
+        </div>
+    </div>
+
+    <main class="container" id="main-app" style="display: none;">
+      <div class="user-header">
+      <h1>NEO SOCIETY</h1>
+        <div class="user-info">
+          <span id="user-email"></span>
+          <button id="logout-btn" class="logout-btn">Logout</button>
+        </div>
+      </div>
+      <div class="content">
+        <aside class="sidebar">
+          <div class="controls">
+            <div class="uids">
+              <label class="uidlabel">UID 1 <input id="uid1" placeholder="uid1"></label>
+              <label class="uidlabel">UID 2 <input id="uid2" placeholder="uid2"></label>
+              <label class="uidlabel">UID 3 <input id="uid3" placeholder="uid3"></label>
+              <label class="uidlabel">UID 4 <input id="uid4" placeholder="uid4"></label>
+            </div>
+            
+            <div class="mode-selector">
+              <label class="label">Emote Mode</label>
+              <div class="mode-buttons">
+                <button class="modebtn active" data-mode="fastemote">Fast Emote</button>
+                <button class="modebtn" data-mode="joinemote">Join Emote</button>
+              </div>
+            </div>
+
+            <div class="teamgroup">
+              <div class="teamrow">
+                <label class="label">Team code
+                  <input id="teamcode" placeholder="e.g. 4356375">
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <div id="status" class="status"></div>
+        </aside>
+
+        <main class="mainarea">
+          <div class="categories">
+            
+              <button class="catbtn active" data-category="All" data-emote-codes="">All</button>
+            
+              <button class="catbtn " data-category="EVO" data-emote-codes="909000098,909000063,909000090,909000081,909000075,909035007,909000068,909049010,909040010,909045001,909038012,909042008,909039011,909041005,909035012,909037011,909033001,909038010,909000085,909051003">EVO</button>
+            
+              <button class="catbtn " data-category="Rear Emote" data-emote-codes="909045002,909045003,909040013,909041008,909041012,909041013,909050011,909042007,909000074,909000012,909033005,909034008">REAR EMOTE</button>
+            
+              <button class="catbtn " data-category="NOT IN BD SERVER" data-emote-codes="909050009,909039013,909041014,909042017,909043009,909044008,909045007,909046001,909046006,909047012,909048018,909049001,909049002,909049009,909049012,909049016,909049020,909050008,909050014,909050015,909050016">NOT IN BD SERVER</button>
+            
+              <button class="catbtn " data-category="Hyper B Max" data-emote-codes="909042003,909044005,909048002,909037010">Hyper B Max</button>
+            
+          </div>
+
+          <section class="grid" id="grid">
+            
+              <div class="cell" data-emote-id="909000001">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909000001.png" data-emote-id="909000001" alt="909000001.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909000002">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909000002.png" data-emote-id="909000002" alt="909000002.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909000003">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909000003.png" data-emote-id="909000003" alt="909000003.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909000004">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909000004.png" data-emote-id="909000004" alt="909000004.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909000005">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909000005.png" data-emote-id="909000005" alt="909000005.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909000006">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909000006.png" data-emote-id="909000006" alt="909000006.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909000007">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909000007.png" data-emote-id="909000007" alt="909000007.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909000008">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909000008.png" data-emote-id="909000008" alt="909000008.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909000009">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909000009.png" data-emote-id="909000009" alt="909000009.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909000010">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909000010.png" data-emote-id="909000010" alt="909000010.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909000011">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909000011.png" data-emote-id="909000011" alt="909000011.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909000012">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909000012.png" data-emote-id="909000012" alt="909000012.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909000013">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909000013.png" data-emote-id="909000013" alt="909000013.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909000014">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909000014.png" data-emote-id="909000014" alt="909000014.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909000015">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909000015.png" data-emote-id="909000015" alt="909000015.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909000016">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909000016.png" data-emote-id="909000016" alt="909000016.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909000017">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909000017.png" data-emote-id="909000017" alt="909000017.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909000018">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909000018.png" data-emote-id="909000018" alt="909000018.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909000019">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909000019.png" data-emote-id="909000019" alt="909000019.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909000020">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909000020.png" data-emote-id="909000020" alt="909000020.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909000021">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909000021.png" data-emote-id="909000021" alt="909000021.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909000022">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909000022.png" data-emote-id="909000022" alt="909000022.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909000023">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909000023.png" data-emote-id="909000023" alt="909000023.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909000024">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909000024.png" data-emote-id="909000024" alt="909000024.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909000025">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909000025.png" data-emote-id="909000025" alt="909000025.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909000026">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909000026.png" data-emote-id="909000026" alt="909000026.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909000027">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909000027.png" data-emote-id="909000027" alt="909000027.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909000028">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909000028.png" data-emote-id="909000028" alt="909000028.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909000029">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909000029.png" data-emote-id="909000029" alt="909000029.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909000031">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909000031.png" data-emote-id="909000031" alt="909000031.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909000032">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909000032.png" data-emote-id="909000032" alt="909000032.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909000033">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909000033.png" data-emote-id="909000033" alt="909000033.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909000034">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909000034.png" data-emote-id="909000034" alt="909000034.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909000035">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909000035.png" data-emote-id="909000035" alt="909000035.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909000036">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909000036.png" data-emote-id="909000036" alt="909000036.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909000037">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909000037.png" data-emote-id="909000037" alt="909000037.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909000038">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909000038.png" data-emote-id="909000038" alt="909000038.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909000039">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909000039.png" data-emote-id="909000039" alt="909000039.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909000040">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909000040.png" data-emote-id="909000040" alt="909000040.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909000041">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909000041.png" data-emote-id="909000041" alt="909000041.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909000042">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909000042.png" data-emote-id="909000042" alt="909000042.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909000043">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909000043.png" data-emote-id="909000043" alt="909000043.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909000044">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909000044.png" data-emote-id="909000044" alt="909000044.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909000045">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909000045.png" data-emote-id="909000045" alt="909000045.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909000046">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909000046.png" data-emote-id="909000046" alt="909000046.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909000047">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909000047.png" data-emote-id="909000047" alt="909000047.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909000048">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909000048.png" data-emote-id="909000048" alt="909000048.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909000049">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909000049.png" data-emote-id="909000049" alt="909000049.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909000051">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909000051.png" data-emote-id="909000051" alt="909000051.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909000052">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909000052.png" data-emote-id="909000052" alt="909000052.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909000053">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909000053.png" data-emote-id="909000053" alt="909000053.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909000054">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909000054.png" data-emote-id="909000054" alt="909000054.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909000055">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909000055.png" data-emote-id="909000055" alt="909000055.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909000056">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909000056.png" data-emote-id="909000056" alt="909000056.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909000057">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909000057.png" data-emote-id="909000057" alt="909000057.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909000058">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909000058.png" data-emote-id="909000058" alt="909000058.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909000059">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909000059.png" data-emote-id="909000059" alt="909000059.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909000060">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909000060.png" data-emote-id="909000060" alt="909000060.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909000061">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909000061.png" data-emote-id="909000061" alt="909000061.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909000062">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909000062.png" data-emote-id="909000062" alt="909000062.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909000063">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909000063.png" data-emote-id="909000063" alt="909000063.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909000064">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909000064.png" data-emote-id="909000064" alt="909000064.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909000065">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909000065.png" data-emote-id="909000065" alt="909000065.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909000066">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909000066.png" data-emote-id="909000066" alt="909000066.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909000067">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909000067.png" data-emote-id="909000067" alt="909000067.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909000068">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909000068.png" data-emote-id="909000068" alt="909000068.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909000069">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909000069.png" data-emote-id="909000069" alt="909000069.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909000070">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909000070.png" data-emote-id="909000070" alt="909000070.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909000071">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909000071.png" data-emote-id="909000071" alt="909000071.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909000072">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909000072.png" data-emote-id="909000072" alt="909000072.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909000073">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909000073.png" data-emote-id="909000073" alt="909000073.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909000074">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909000074.png" data-emote-id="909000074" alt="909000074.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909000075">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909000075.png" data-emote-id="909000075" alt="909000075.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909000076">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909000076.png" data-emote-id="909000076" alt="909000076.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909000077">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909000077.png" data-emote-id="909000077" alt="909000077.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909000078">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909000078.png" data-emote-id="909000078" alt="909000078.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909000079">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909000079.png" data-emote-id="909000079" alt="909000079.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909000080">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909000080.png" data-emote-id="909000080" alt="909000080.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909000081">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909000081.png" data-emote-id="909000081" alt="909000081.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909000082">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909000082.png" data-emote-id="909000082" alt="909000082.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909000083">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909000083.png" data-emote-id="909000083" alt="909000083.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909000084">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909000084.png" data-emote-id="909000084" alt="909000084.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909000085">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909000085.png" data-emote-id="909000085" alt="909000085.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909000086">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909000086.png" data-emote-id="909000086" alt="909000086.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909000087">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909000087.png" data-emote-id="909000087" alt="909000087.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909000088">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909000088.png" data-emote-id="909000088" alt="909000088.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909000089">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909000089.png" data-emote-id="909000089" alt="909000089.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909000090">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909000090.png" data-emote-id="909000090" alt="909000090.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909000091">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909000091.png" data-emote-id="909000091" alt="909000091.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909000092">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909000092.png" data-emote-id="909000092" alt="909000092.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909000093">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909000093.png" data-emote-id="909000093" alt="909000093.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909000094">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909000094.png" data-emote-id="909000094" alt="909000094.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909000095">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909000095.png" data-emote-id="909000095" alt="909000095.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909000096">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909000096.png" data-emote-id="909000096" alt="909000096.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909000097">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909000097.png" data-emote-id="909000097" alt="909000097.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909000098">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909000098.png" data-emote-id="909000098" alt="909000098.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909000099">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909000099.png" data-emote-id="909000099" alt="909000099.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909000100">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909000100.png" data-emote-id="909000100" alt="909000100.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909000101">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909000101.png" data-emote-id="909000101" alt="909000101.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909000102">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909000102.png" data-emote-id="909000102" alt="909000102.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909000103">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909000103.png" data-emote-id="909000103" alt="909000103.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909000104">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909000104.png" data-emote-id="909000104" alt="909000104.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909000105">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909000105.png" data-emote-id="909000105" alt="909000105.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909000106">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909000106.png" data-emote-id="909000106" alt="909000106.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909000107">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909000107.png" data-emote-id="909000107" alt="909000107.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909000108">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909000108.png" data-emote-id="909000108" alt="909000108.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909000109">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909000109.png" data-emote-id="909000109" alt="909000109.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909000110">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909000110.png" data-emote-id="909000110" alt="909000110.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909000111">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909000111.png" data-emote-id="909000111" alt="909000111.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909000112">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909000112.png" data-emote-id="909000112" alt="909000112.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909000113">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909000113.png" data-emote-id="909000113" alt="909000113.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909000114">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909000114.png" data-emote-id="909000114" alt="909000114.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909000115">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909000115.png" data-emote-id="909000115" alt="909000115.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909000116">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909000116.png" data-emote-id="909000116" alt="909000116.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909000117">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909000117.png" data-emote-id="909000117" alt="909000117.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909000118">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909000118.png" data-emote-id="909000118" alt="909000118.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909000119">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909000119.png" data-emote-id="909000119" alt="909000119.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909000120">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909000120.png" data-emote-id="909000120" alt="909000120.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909000121">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909000121.png" data-emote-id="909000121" alt="909000121.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909000122">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909000122.png" data-emote-id="909000122" alt="909000122.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909000123">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909000123.png" data-emote-id="909000123" alt="909000123.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909000124">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909000124.png" data-emote-id="909000124" alt="909000124.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909000125">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909000125.png" data-emote-id="909000125" alt="909000125.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909000126">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909000126.png" data-emote-id="909000126" alt="909000126.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909000127">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909000127.png" data-emote-id="909000127" alt="909000127.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909000128">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909000128.png" data-emote-id="909000128" alt="909000128.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909000129">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909000129.png" data-emote-id="909000129" alt="909000129.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909000130">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909000130.png" data-emote-id="909000130" alt="909000130.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909000131">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909000131.png" data-emote-id="909000131" alt="909000131.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909000132">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909000132.png" data-emote-id="909000132" alt="909000132.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909000133">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909000133.png" data-emote-id="909000133" alt="909000133.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909000134">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909000134.png" data-emote-id="909000134" alt="909000134.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909000135">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909000135.png" data-emote-id="909000135" alt="909000135.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909000136">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909000136.png" data-emote-id="909000136" alt="909000136.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909000137">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909000137.png" data-emote-id="909000137" alt="909000137.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909000138">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909000138.png" data-emote-id="909000138" alt="909000138.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909000139">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909000139.png" data-emote-id="909000139" alt="909000139.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909000140">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909000140.png" data-emote-id="909000140" alt="909000140.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909000141">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909000141.png" data-emote-id="909000141" alt="909000141.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909000144">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909000144.png" data-emote-id="909000144" alt="909000144.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909000145">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909000145.png" data-emote-id="909000145" alt="909000145.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909000150">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909000150.png" data-emote-id="909000150" alt="909000150.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909033001">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909033001.png" data-emote-id="909033001" alt="909033001.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909033002">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909033002.png" data-emote-id="909033002" alt="909033002.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909033003">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909033003.png" data-emote-id="909033003" alt="909033003.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909033004">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909033004.png" data-emote-id="909033004" alt="909033004.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909033005">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909033005.png" data-emote-id="909033005" alt="909033005.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909033006">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909033006.png" data-emote-id="909033006" alt="909033006.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909033007">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909033007.png" data-emote-id="909033007" alt="909033007.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909033008">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909033008.png" data-emote-id="909033008" alt="909033008.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909033009">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909033009.png" data-emote-id="909033009" alt="909033009.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909033010">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909033010.png" data-emote-id="909033010" alt="909033010.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909034001">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909034001.png" data-emote-id="909034001" alt="909034001.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909034002">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909034002.png" data-emote-id="909034002" alt="909034002.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909034003">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909034003.png" data-emote-id="909034003" alt="909034003.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909034004">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909034004.png" data-emote-id="909034004" alt="909034004.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909034005">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909034005.png" data-emote-id="909034005" alt="909034005.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909034006">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909034006.png" data-emote-id="909034006" alt="909034006.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909034007">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909034007.png" data-emote-id="909034007" alt="909034007.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909034008">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909034008.png" data-emote-id="909034008" alt="909034008.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909034009">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909034009.png" data-emote-id="909034009" alt="909034009.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909034010">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909034010.png" data-emote-id="909034010" alt="909034010.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909034011">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909034011.png" data-emote-id="909034011" alt="909034011.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909034012">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909034012.png" data-emote-id="909034012" alt="909034012.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909034013">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909034013.png" data-emote-id="909034013" alt="909034013.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909034014">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909034014.png" data-emote-id="909034014" alt="909034014.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909035001">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909035001.png" data-emote-id="909035001" alt="909035001.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909035005">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909035005.png" data-emote-id="909035005" alt="909035005.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909035006">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909035006.png" data-emote-id="909035006" alt="909035006.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909035007">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909035007.png" data-emote-id="909035007" alt="909035007.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909035008">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909035008.png" data-emote-id="909035008" alt="909035008.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909035009">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909035009.png" data-emote-id="909035009" alt="909035009.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909035010">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909035010.png" data-emote-id="909035010" alt="909035010.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909035011">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909035011.png" data-emote-id="909035011" alt="909035011.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909035012">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909035012.png" data-emote-id="909035012" alt="909035012.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909035013">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909035013.png" data-emote-id="909035013" alt="909035013.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909035014">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909035014.png" data-emote-id="909035014" alt="909035014.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909035015">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909035015.png" data-emote-id="909035015" alt="909035015.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909036001">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909036001.png" data-emote-id="909036001" alt="909036001.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909036002">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909036002.png" data-emote-id="909036002" alt="909036002.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909036003">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909036003.png" data-emote-id="909036003" alt="909036003.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909036004">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909036004.png" data-emote-id="909036004" alt="909036004.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909036005">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909036005.png" data-emote-id="909036005" alt="909036005.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909036006">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909036006.png" data-emote-id="909036006" alt="909036006.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909036008">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909036008.png" data-emote-id="909036008" alt="909036008.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909036009">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909036009.png" data-emote-id="909036009" alt="909036009.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909036010">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909036010.png" data-emote-id="909036010" alt="909036010.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909036011">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909036011.png" data-emote-id="909036011" alt="909036011.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909036012">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909036012.png" data-emote-id="909036012" alt="909036012.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909036014">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909036014.png" data-emote-id="909036014" alt="909036014.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909037001">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909037001.png" data-emote-id="909037001" alt="909037001.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909037002">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909037002.png" data-emote-id="909037002" alt="909037002.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909037003">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909037003.png" data-emote-id="909037003" alt="909037003.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909037004">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909037004.png" data-emote-id="909037004" alt="909037004.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909037005">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909037005.png" data-emote-id="909037005" alt="909037005.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909037006">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909037006.png" data-emote-id="909037006" alt="909037006.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909037007">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909037007.png" data-emote-id="909037007" alt="909037007.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909037008">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909037008.png" data-emote-id="909037008" alt="909037008.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909037009">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909037009.png" data-emote-id="909037009" alt="909037009.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909037010">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909037010.png" data-emote-id="909037010" alt="909037010.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909037011">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909037011.png" data-emote-id="909037011" alt="909037011.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909037012">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909037012.png" data-emote-id="909037012" alt="909037012.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909038001">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909038001.png" data-emote-id="909038001" alt="909038001.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909038003">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909038003.png" data-emote-id="909038003" alt="909038003.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909038004">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909038004.png" data-emote-id="909038004" alt="909038004.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909038005">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909038005.png" data-emote-id="909038005" alt="909038005.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909038006">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909038006.png" data-emote-id="909038006" alt="909038006.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909038008">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909038008.png" data-emote-id="909038008" alt="909038008.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909038009">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909038009.png" data-emote-id="909038009" alt="909038009.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909038010">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909038010.png" data-emote-id="909038010" alt="909038010.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909038011">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909038011.png" data-emote-id="909038011" alt="909038011.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909038012">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909038012.png" data-emote-id="909038012" alt="909038012.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909038013">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909038013.png" data-emote-id="909038013" alt="909038013.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909039001">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909039001.png" data-emote-id="909039001" alt="909039001.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909039002">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909039002.png" data-emote-id="909039002" alt="909039002.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909039003">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909039003.png" data-emote-id="909039003" alt="909039003.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909039004">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909039004.png" data-emote-id="909039004" alt="909039004.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909039005">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909039005.png" data-emote-id="909039005" alt="909039005.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909039006">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909039006.png" data-emote-id="909039006" alt="909039006.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909039007">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909039007.png" data-emote-id="909039007" alt="909039007.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909039008">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909039008.png" data-emote-id="909039008" alt="909039008.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909039009">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909039009.png" data-emote-id="909039009" alt="909039009.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909039010">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909039010.png" data-emote-id="909039010" alt="909039010.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909039011">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909039011.png" data-emote-id="909039011" alt="909039011.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909039012">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909039012.png" data-emote-id="909039012" alt="909039012.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909039013">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909039013.png" data-emote-id="909039013" alt="909039013.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909039014">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909039014.png" data-emote-id="909039014" alt="909039014.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909040001">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909040001.png" data-emote-id="909040001" alt="909040001.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909040002">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909040002.png" data-emote-id="909040002" alt="909040002.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909040003">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909040003.png" data-emote-id="909040003" alt="909040003.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909040004">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909040004.png" data-emote-id="909040004" alt="909040004.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909040005">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909040005.png" data-emote-id="909040005" alt="909040005.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909040006">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909040006.png" data-emote-id="909040006" alt="909040006.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909040008">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909040008.png" data-emote-id="909040008" alt="909040008.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909040009">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909040009.png" data-emote-id="909040009" alt="909040009.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909040010">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909040010.png" data-emote-id="909040010" alt="909040010.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909040011">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909040011.png" data-emote-id="909040011" alt="909040011.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909040012">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909040012.png" data-emote-id="909040012" alt="909040012.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909040013">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909040013.png" data-emote-id="909040013" alt="909040013.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909040014">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909040014.png" data-emote-id="909040014" alt="909040014.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909041001">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909041001.png" data-emote-id="909041001" alt="909041001.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909041002">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909041002.png" data-emote-id="909041002" alt="909041002.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909041003">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909041003.png" data-emote-id="909041003" alt="909041003.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909041004">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909041004.png" data-emote-id="909041004" alt="909041004.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909041005">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909041005.png" data-emote-id="909041005" alt="909041005.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909041006">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909041006.png" data-emote-id="909041006" alt="909041006.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909041007">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909041007.png" data-emote-id="909041007" alt="909041007.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909041008">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909041008.png" data-emote-id="909041008" alt="909041008.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909041009">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909041009.png" data-emote-id="909041009" alt="909041009.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909041010">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909041010.png" data-emote-id="909041010" alt="909041010.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909041011">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909041011.png" data-emote-id="909041011" alt="909041011.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909041012">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909041012.png" data-emote-id="909041012" alt="909041012.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909041013">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909041013.png" data-emote-id="909041013" alt="909041013.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909041014">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909041014.png" data-emote-id="909041014" alt="909041014.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909041015">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909041015.png" data-emote-id="909041015" alt="909041015.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909042001">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909042001.png" data-emote-id="909042001" alt="909042001.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909042002">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909042002.png" data-emote-id="909042002" alt="909042002.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909042003">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909042003.png" data-emote-id="909042003" alt="909042003.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909042004">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909042004.png" data-emote-id="909042004" alt="909042004.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909042005">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909042005.png" data-emote-id="909042005" alt="909042005.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909042006">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909042006.png" data-emote-id="909042006" alt="909042006.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909042007">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909042007.png" data-emote-id="909042007" alt="909042007.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909042008">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909042008.png" data-emote-id="909042008" alt="909042008.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909042009">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909042009.png" data-emote-id="909042009" alt="909042009.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909042011">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909042011.png" data-emote-id="909042011" alt="909042011.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909042012">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909042012.png" data-emote-id="909042012" alt="909042012.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909042013">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909042013.png" data-emote-id="909042013" alt="909042013.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909042016">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909042016.png" data-emote-id="909042016" alt="909042016.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909042017">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909042017.png" data-emote-id="909042017" alt="909042017.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909042018">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909042018.png" data-emote-id="909042018" alt="909042018.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909043001">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909043001.png" data-emote-id="909043001" alt="909043001.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909043002">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909043002.png" data-emote-id="909043002" alt="909043002.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909043003">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909043003.png" data-emote-id="909043003" alt="909043003.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909043004">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909043004.png" data-emote-id="909043004" alt="909043004.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909043005">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909043005.png" data-emote-id="909043005" alt="909043005.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909043006">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909043006.png" data-emote-id="909043006" alt="909043006.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909043007">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909043007.png" data-emote-id="909043007" alt="909043007.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909043008">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909043008.png" data-emote-id="909043008" alt="909043008.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909043009">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909043009.png" data-emote-id="909043009" alt="909043009.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909043010">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909043010.png" data-emote-id="909043010" alt="909043010.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909043013">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909043013.png" data-emote-id="909043013" alt="909043013.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909044001">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909044001.png" data-emote-id="909044001" alt="909044001.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909044002">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909044002.png" data-emote-id="909044002" alt="909044002.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909044003">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909044003.png" data-emote-id="909044003" alt="909044003.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909044004">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909044004.png" data-emote-id="909044004" alt="909044004.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909044005">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909044005.png" data-emote-id="909044005" alt="909044005.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909044006">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909044006.png" data-emote-id="909044006" alt="909044006.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909044007">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909044007.png" data-emote-id="909044007" alt="909044007.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909044008">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909044008.png" data-emote-id="909044008" alt="909044008.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909044009">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909044009.png" data-emote-id="909044009" alt="909044009.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909044010">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909044010.png" data-emote-id="909044010" alt="909044010.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909044011">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909044011.png" data-emote-id="909044011" alt="909044011.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909044012">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909044012.png" data-emote-id="909044012" alt="909044012.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909044015">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909044015.png" data-emote-id="909044015" alt="909044015.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909044016">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909044016.png" data-emote-id="909044016" alt="909044016.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909045001">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909045001.png" data-emote-id="909045001" alt="909045001.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909045002">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909045002.png" data-emote-id="909045002" alt="909045002.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909045003">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909045003.png" data-emote-id="909045003" alt="909045003.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909045004">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909045004.png" data-emote-id="909045004" alt="909045004.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909045005">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909045005.png" data-emote-id="909045005" alt="909045005.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909045006">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909045006.png" data-emote-id="909045006" alt="909045006.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909045007">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909045007.png" data-emote-id="909045007" alt="909045007.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909045008">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909045008.png" data-emote-id="909045008" alt="909045008.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909045009">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909045009.png" data-emote-id="909045009" alt="909045009.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909045010">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909045010.png" data-emote-id="909045010" alt="909045010.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909045011">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909045011.png" data-emote-id="909045011" alt="909045011.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909045012">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909045012.png" data-emote-id="909045012" alt="909045012.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909045015">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909045015.png" data-emote-id="909045015" alt="909045015.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909045016">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909045016.png" data-emote-id="909045016" alt="909045016.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909045017">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909045017.png" data-emote-id="909045017" alt="909045017.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909046001">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909046001.png" data-emote-id="909046001" alt="909046001.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909046002">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909046002.png" data-emote-id="909046002" alt="909046002.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909046003">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909046003.png" data-emote-id="909046003" alt="909046003.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909046004">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909046004.png" data-emote-id="909046004" alt="909046004.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909046005">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909046005.png" data-emote-id="909046005" alt="909046005.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909046006">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909046006.png" data-emote-id="909046006" alt="909046006.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909046007">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909046007.png" data-emote-id="909046007" alt="909046007.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909046008">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909046008.png" data-emote-id="909046008" alt="909046008.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909046009">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909046009.png" data-emote-id="909046009" alt="909046009.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909046010">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909046010.png" data-emote-id="909046010" alt="909046010.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909046011">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909046011.png" data-emote-id="909046011" alt="909046011.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909046012">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909046012.png" data-emote-id="909046012" alt="909046012.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909046013">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909046013.png" data-emote-id="909046013" alt="909046013.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909046014">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909046014.png" data-emote-id="909046014" alt="909046014.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909046015">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909046015.png" data-emote-id="909046015" alt="909046015.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909046016">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909046016.png" data-emote-id="909046016" alt="909046016.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909046017">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909046017.png" data-emote-id="909046017" alt="909046017.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909047001">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909047001.png" data-emote-id="909047001" alt="909047001.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909047002">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909047002.png" data-emote-id="909047002" alt="909047002.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909047003">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909047003.png" data-emote-id="909047003" alt="909047003.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909047004">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909047004.png" data-emote-id="909047004" alt="909047004.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909047005">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909047005.png" data-emote-id="909047005" alt="909047005.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909047006">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909047006.png" data-emote-id="909047006" alt="909047006.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909047007">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909047007.png" data-emote-id="909047007" alt="909047007.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909047008">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909047008.png" data-emote-id="909047008" alt="909047008.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909047009">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909047009.png" data-emote-id="909047009" alt="909047009.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909047010">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909047010.png" data-emote-id="909047010" alt="909047010.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909047011">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909047011.png" data-emote-id="909047011" alt="909047011.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909047012">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909047012.png" data-emote-id="909047012" alt="909047012.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909047013">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909047013.png" data-emote-id="909047013" alt="909047013.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909047015">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909047015.png" data-emote-id="909047015" alt="909047015.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909047016">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909047016.png" data-emote-id="909047016" alt="909047016.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909047017">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909047017.png" data-emote-id="909047017" alt="909047017.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909047018">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909047018.png" data-emote-id="909047018" alt="909047018.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909047019">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909047019.png" data-emote-id="909047019" alt="909047019.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909048001">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909048001.png" data-emote-id="909048001" alt="909048001.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909048002">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909048002.png" data-emote-id="909048002" alt="909048002.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909048003">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909048003.png" data-emote-id="909048003" alt="909048003.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909048004">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909048004.png" data-emote-id="909048004" alt="909048004.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909048005">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909048005.png" data-emote-id="909048005" alt="909048005.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909048006">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909048006.png" data-emote-id="909048006" alt="909048006.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909048007">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909048007.png" data-emote-id="909048007" alt="909048007.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909048008">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909048008.png" data-emote-id="909048008" alt="909048008.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909048009">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909048009.png" data-emote-id="909048009" alt="909048009.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909048010">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909048010.png" data-emote-id="909048010" alt="909048010.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909048011">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909048011.png" data-emote-id="909048011" alt="909048011.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909048012">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909048012.png" data-emote-id="909048012" alt="909048012.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909048013">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909048013.png" data-emote-id="909048013" alt="909048013.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909048014">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909048014.png" data-emote-id="909048014" alt="909048014.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909048015">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909048015.png" data-emote-id="909048015" alt="909048015.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909048016">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909048016.png" data-emote-id="909048016" alt="909048016.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909048017">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909048017.png" data-emote-id="909048017" alt="909048017.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909048018">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909048018.png" data-emote-id="909048018" alt="909048018.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909049001">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909049001.png" data-emote-id="909049001" alt="909049001.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909049002">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909049002.png" data-emote-id="909049002" alt="909049002.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909049003">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909049003.png" data-emote-id="909049003" alt="909049003.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909049004">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909049004.png" data-emote-id="909049004" alt="909049004.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909049005">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909049005.png" data-emote-id="909049005" alt="909049005.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909049006">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909049006.png" data-emote-id="909049006" alt="909049006.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909049007">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909049007.png" data-emote-id="909049007" alt="909049007.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909049008">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909049008.png" data-emote-id="909049008" alt="909049008.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909049009">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909049009.png" data-emote-id="909049009" alt="909049009.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909049010">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909049010.png" data-emote-id="909049010" alt="909049010.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909049011">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909049011.png" data-emote-id="909049011" alt="909049011.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909049012">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909049012.png" data-emote-id="909049012" alt="909049012.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909049013">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909049013.png" data-emote-id="909049013" alt="909049013.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909049014">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909049014.png" data-emote-id="909049014" alt="909049014.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909049015">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909049015.png" data-emote-id="909049015" alt="909049015.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909049016">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909049016.png" data-emote-id="909049016" alt="909049016.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909049017">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909049017.png" data-emote-id="909049017" alt="909049017.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909049018">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909049018.png" data-emote-id="909049018" alt="909049018.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909049019">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909049019.png" data-emote-id="909049019" alt="909049019.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909049020">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909049020.png" data-emote-id="909049020" alt="909049020.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909049021">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909049021.png" data-emote-id="909049021" alt="909049021.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909050002">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909050002.png" data-emote-id="909050002" alt="909050002.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909050004">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909050004.png" data-emote-id="909050004" alt="909050004.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909050005">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909050005.png" data-emote-id="909050005" alt="909050005.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909050006">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909050006.png" data-emote-id="909050006" alt="909050006.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909050008">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909050008.png" data-emote-id="909050008" alt="909050008.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909050009">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909050009.png" data-emote-id="909050009" alt="909050009.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909050010">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909050010.png" data-emote-id="909050010" alt="909050010.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909050011">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909050011.png" data-emote-id="909050011" alt="909050011.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909050012">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909050012.png" data-emote-id="909050012" alt="909050012.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909050014">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909050014.png" data-emote-id="909050014" alt="909050014.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909050015">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909050015.png" data-emote-id="909050015" alt="909050015.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909050016">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909050016.png" data-emote-id="909050016" alt="909050016.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909050017">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909050017.png" data-emote-id="909050017" alt="909050017.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909050018">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909050018.png" data-emote-id="909050018" alt="909050018.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909050019">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909050019.png" data-emote-id="909050019" alt="909050019.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909050020">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909050020.png" data-emote-id="909050020" alt="909050020.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909050021">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909050021.png" data-emote-id="909050021" alt="909050021.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909050026">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909050026.png" data-emote-id="909050026" alt="909050026.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909050027">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909050027.png" data-emote-id="909050027" alt="909050027.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909050028">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909050028.png" data-emote-id="909050028" alt="909050028.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909050029">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909050029.png" data-emote-id="909050029" alt="909050029.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909050030">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909050030.png" data-emote-id="909050030" alt="909050030.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909051001">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909051001.png" data-emote-id="909051001" alt="909051001.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909051002">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909051002.png" data-emote-id="909051002" alt="909051002.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909051003">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909051003.png" data-emote-id="909051003" alt="909051003.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909051004">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909051004.png" data-emote-id="909051004" alt="909051004.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909051005">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909051005.png" data-emote-id="909051005" alt="909051005.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909051006">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909051006.png" data-emote-id="909051006" alt="909051006.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909051007">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909051007.png" data-emote-id="909051007" alt="909051007.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909051008">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909051008.png" data-emote-id="909051008" alt="909051008.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909051009">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909051009.png" data-emote-id="909051009" alt="909051009.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909051010">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909051010.png" data-emote-id="909051010" alt="909051010.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909051011">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909051011.png" data-emote-id="909051011" alt="909051011.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909051012">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909051012.png" data-emote-id="909051012" alt="909051012.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909051013">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909051013.png" data-emote-id="909051013" alt="909051013.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909051014">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909051014.png" data-emote-id="909051014" alt="909051014.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909051015">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909051015.png" data-emote-id="909051015" alt="909051015.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909051016">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909051016.png" data-emote-id="909051016" alt="909051016.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909051018">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909051018.png" data-emote-id="909051018" alt="909051018.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909051019">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909051019.png" data-emote-id="909051019" alt="909051019.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909051020">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909051020.png" data-emote-id="909051020" alt="909051020.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909547001">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909547001.png" data-emote-id="909547001" alt="909547001.png">
+              </div>
+            
+              <div class="cell" data-emote-id="909550001">
+                <img src="https://raw.githubusercontent.com/jamiffsystem/FFAllIcon/main/emoteicon/909550001.png" data-emote-id="909550001" alt="909550001.png">
+              </div>
+            
+          </section>
+        </main>
+      </div>
+
+      <footer>
+        <small class="credit"><strong>DEVELOPED BY SOJIB</strong></small>
+      </footer>
+    </main>
+
+    <script>
+function qs(id){return document.getElementById(id)}
+
+// Wait for DOM and auth to be ready
+let status, teamcodeInput, uid1Input, uid2Input, uid3Input, uid4Input, grid
+let currentMode = 'fastemote' // default mode
+let appInitialized = false
+let listenersSetup = false
+
+function initApp() {
+  // Prevent multiple initializations
+  if (appInitialized && listenersSetup) return
+  
+  // Only initialize if elements exist (user is authenticated and app is visible)
+  status = qs('status')
+  teamcodeInput = qs('teamcode')
+  uid1Input = qs('uid1')
+  uid2Input = qs('uid2')
+  uid3Input = qs('uid3')
+  uid4Input = qs('uid4')
+  grid = qs('grid')
+  
+  if (!status || !teamcodeInput || !grid) {
+    // Elements not ready yet, try again after a short delay
+    setTimeout(initApp, 100)
+    return
+  }
+  
+  if (!listenersSetup) {
+    setupEventListeners()
+    listenersSetup = true
+  }
+  
+  if (!appInitialized) {
+    initParticles()
+    appInitialized = true
+  }
+}
+
+function setStatus(text, ok=true){
+  if(status) {
+    status.textContent = text
+    status.style.borderColor = ok ? '#FFD700' : '#fed7d7'
+  }
+}
+
+function setupEventListeners() {
+
+// Quick mode applies UI changes and behavior for fast emote
+// quick mode / UID4 / join/leave removed — this UI uses only teamcode + uid1/2/3 and the fastemote API
+
+  // Mode selection
+  const modeBtns = document.querySelectorAll('.modebtn')
+  modeBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      modeBtns.forEach(b => b.classList.remove('active'))
+      btn.classList.add('active')
+      currentMode = btn.dataset.mode
+    })
+  })
+
+  // Category filtering
+  const categoryBtns = document.querySelectorAll('.catbtn')
+  categoryBtns.forEach(btn => {
+    btn.addEventListener('click', ()=>{
+      // remove active from all buttons
+      categoryBtns.forEach(b => b.classList.remove('active'))
+      // add active to clicked button
+      btn.classList.add('active')
+      
+      const category = btn.dataset.category
+      const emoteCodes = btn.dataset.emoteCodes
+      
+      // get all cells
+      const cells = grid.querySelectorAll('.cell')
+      
+      if(category === 'All' || !emoteCodes){
+        // show all
+        cells.forEach(c => c.style.display = '')
+      } else {
+        // filter by emote codes
+        const codes = emoteCodes.split(',').filter(x=>x.trim())
+        cells.forEach(c => {
+          const emoteId = c.dataset.emoteId
+          // check if emote id matches exactly or starts with any of the codes
+          const matches = codes.some(code => {
+            const trimmedCode = code.trim()
+            return emoteId === trimmedCode || emoteId.startsWith(trimmedCode)
+          })
+          c.style.display = matches ? '' : 'none'
+        })
+      }
+    })
+  })
+
+  grid.addEventListener('click', async (ev)=>{
+  const img = ev.target.closest('img')
+  if(!img) return
+  const emoteId = img.dataset.emoteId
+  const teamcode = teamcodeInput.value.trim()
+  const uid1 = uid1Input.value.trim()
+  const uid2 = uid2Input.value.trim()
+  const uid3 = uid3Input.value.trim()
+  const uid4 = uid4Input.value.trim()
+  if(!emoteId){ setStatus('No emote id', false); return }
+  if(!teamcode){ setStatus('Enter teamcode', false); return }
+
+  // Collect all provided UIDs (including uid4)
+  const uids = [uid1, uid2, uid3, uid4].filter(s => s && s.trim())
+  if(uids.length === 0){ setStatus('Enter at least one UID', false); return }
+
+  const modeName = currentMode === 'fastemote' ? 'fast' : 'join'
+  setStatus(`Sending ${modeName} emote ${emoteId}...`)
+  
+  try{
+    const endpoint = currentMode === 'fastemote' ? '/api/fastemote' : '/api/join'
+    
+    // Build query parameters
+    const params = new URLSearchParams({
+      tc: teamcode
+    })
+    
+    // Add parameters based on mode (different order for different endpoints)
+    if(currentMode === 'fastemote') {
+      // Fastemote: UIDs before emote_id
+      if(uid1) params.append('uid1', uid1)
+      if(uid2) params.append('uid2', uid2)
+      if(uid3) params.append('uid3', uid3)
+      if(uid4) params.append('uid4', uid4)
+      params.append('emote_id', emoteId)
+    } else {
+      // Join: emote_id before UIDs
+      params.append('emote_id', emoteId)
+      if(uid1) params.append('uid1', uid1)
+      if(uid2) params.append('uid2', uid2)
+      if(uid3) params.append('uid3', uid3)
+      if(uid4) params.append('uid4', uid4)
+    }
+    
+    const url = `${endpoint}?${params.toString()}`
+    
+    const res = await fetch(url, {
+      method: 'GET',
+      cache: 'no-cache'
+    })
+    if(!res.ok) {
+      const errorText = await res.text()
+      let errorMsg = `Server error (${res.status}): ${errorText}`
+      try {
+        const errorData = JSON.parse(errorText)
+        errorMsg = errorData.message || errorData.error || errorMsg
+      } catch {}
+      setStatus(`Error: ${errorMsg}`, false)
+      return
+    }
+    
+    const data = await res.json()
+    const isSuccess = data.status === 'success'
+    if(isSuccess) {
+      const successMsg = data.message ? `Emote sent successfully! ${data.message}` : 'Emote sent successfully!'
+      setStatus(successMsg, true)
+    } else {
+      const message = data.message || JSON.stringify(data)
+      setStatus(`${modeName.charAt(0).toUpperCase() + modeName.slice(1)} emote response: ${message}`, res.ok)
+    }
+  }catch(e){
+    let errorMsg = e.message
+    if(e.message === 'Failed to fetch' || e.message.includes('NetworkError') || e.message.includes('network')) {
+      errorMsg = `Network error: Unable to connect to server. Please try again.`
+    }
+    setStatus(`Error: ${errorMsg}`, false)
+  }
+  })
+}
+
+function initParticles() {
+  if(typeof particlesJS !== 'undefined') {
+    particlesJS('particles-js', {
+      particles: {
+        number: { value: 50, density: { enable: true, value_area: 800 } },
+        color: { value: '#FFD700' },
+        shape: { type: 'circle' },
+        opacity: { value: 0.3, random: true },
+        size: { value: 3, random: true },
+        line_linked: {
+          enable: true,
+          distance: 150,
+          color: '#FFD700',
+          opacity: 0.1,
+          width: 1
+        },
+        move: {
+          enable: true,
+          speed: 1,
+          direction: 'none',
+          random: true,
+          straight: false,
+          out_mode: 'out',
+          bounce: false
+        }
+      },
+      interactivity: {
+        detect_on: 'canvas',
+        events: {
+          onhover: { enable: true, mode: 'repulse' },
+          onclick: { enable: true, mode: 'push' },
+          resize: true
+        },
+        modes: {
+          repulse: { distance: 100, duration: 0.4 },
+          push: { particles_nb: 4 }
+        }
+      },
+      retina_detect: true
+    })
+  }
+}
+
+// Initialize app when DOM is ready
+document.addEventListener('DOMContentLoaded', () => {
+  initApp()
+})
+
+// Also initialize when user authenticates
+window.addEventListener('userAuthenticated', () => {
+  setTimeout(initApp, 200)
+})
+
+// Reset flags when user logs out (so app can reinitialize on next login)
+window.addEventListener('userLoggedOut', () => {
+  appInitialized = false
+  listenersSetup = false
+})
+    </script>
+  </body>
+</html>
+
