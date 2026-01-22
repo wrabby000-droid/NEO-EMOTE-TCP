@@ -1238,6 +1238,7 @@
               <option value="fastemote">Fast Emote</option>
               <option value="fastemote_nodelay">Instant (No Delay)</option>
               <option value="joinemote">Join Emote</option>
+              <option value="join-send-leave">Join → Send → Leave</option>
             </select>
           </div>
 
@@ -3889,12 +3890,62 @@
       const uid2 = uid2Input ? uid2Input.value.trim() : ''
       const uid3 = uid3Input ? uid3Input.value.trim() : ''
       const uid4 = uid4Input ? uid4Input.value.trim() : ''
+
+      // For join-send-leave mode, we need exactly one UID
+      if (currentMode === 'join-send-leave') {
+        const uids = [uid1, uid2, uid3, uid4].filter(s => s && s.trim())
+        if (uids.length === 0) { setStatus('Enter UID for join-send-leave mode', false); return false }
+
+        // Use first UID only
+        const targetUid = uids[0]
+
+        setStatus(`Joining team → Sending emote ${emoteId} → Leaving...`)
+
+        try {
+          const params = new URLSearchParams({ tc: teamcode, uid: targetUid, emote_id: emoteId })
+          const url = `/api/join-send-leave?${params.toString()}`
+          const res = await fetch(url, { method: 'GET', cache: 'no-cache' })
+
+          if (!res.ok) {
+            const errorText = await res.text()
+            let errorMsg = `Server error (${res.status}): ${errorText}`
+            try {
+              const errorData = JSON.parse(errorText)
+              errorMsg = errorData.message || errorData.error || errorMsg
+            } catch { }
+            setStatus(`Error: ${errorMsg}`, false)
+            return false
+          }
+
+          const data = await res.json()
+          const isSuccess = data.status === 'success'
+          if (isSuccess) {
+            const successMsg = data.message ? `Success! ${data.message}` : 'Bot joined, sent emote, and left successfully!'
+            setStatus(successMsg, true)
+            addRecent(emoteId)
+            applyFilters()
+            return true
+          }
+          const message = data.message || JSON.stringify(data)
+          setStatus(`Response: ${message}`, res.ok)
+          return false
+        } catch (e) {
+          let errorMsg = e.message
+          if (e.message === 'Failed to fetch' || (e.message && (e.message.includes('NetworkError') || e.message.includes('network')))) {
+            errorMsg = `Network error: Unable to connect to server. Please try again.`
+          }
+          setStatus(`Error: ${errorMsg}`, false)
+          return false
+        }
+      }
+
+      // Original logic for other modes
       const uids = [uid1, uid2, uid3, uid4].filter(s => s && s.trim())
       if (uids.length === 0) { setStatus('Enter at least one UID', false); return false }
 
       const isFast = currentMode === 'fastemote' || currentMode === 'fastemote_nodelay'
 
-      // Cooldown (rate limit send) â€” disabled for No Delay (Instant)
+      // Cooldown (rate limit send) – disabled for No Delay (Instant)
       if (currentMode !== 'fastemote_nodelay') {
         const now = Date.now()
         const remainingMs = cooldownMs - (now - lastSendAt)
