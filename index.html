@@ -700,6 +700,28 @@
       padding-bottom: 50px;
       opacity: 0.5;
     }
+
+    .status-history-container {
+      margin-top: 12px;
+      padding: 10px;
+      background: rgba(0, 0, 0, 0.2);
+      border-radius: var(--radius-md);
+      font-size: 10px;
+      max-height: 150px;
+      overflow-y: auto;
+    }
+
+    .status-history-container .row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 4px;
+      color: var(--text-muted);
+    }
+
+    .status-history-container .row .right {
+      color: var(--text-dim);
+      font-size: 9px;
+    }
   </style>
 
   <!-- Firebase SDKs -->
@@ -1238,7 +1260,7 @@
               <option value="fastemote">Fast Emote</option>
               <option value="fastemote_nodelay">Instant (No Delay)</option>
               <option value="joinemote">Join Emote</option>
-              <option value="join-send-leave">Join → Send → Leave</option>
+
             </select>
           </div>
 
@@ -1269,6 +1291,7 @@
         <div class="status-card">
           <div class="section-label">System Status</div>
           <div class="status-text" id="status"><span class="status-indicator"></span>Ready</div>
+          <div id="status-history" class="status-history-container"></div>
         </div>
       </div>
     </aside>
@@ -3891,53 +3914,7 @@
       const uid3 = uid3Input ? uid3Input.value.trim() : ''
       const uid4 = uid4Input ? uid4Input.value.trim() : ''
 
-      // For join-send-leave mode, we need exactly one UID
-      if (currentMode === 'join-send-leave') {
-        const uids = [uid1, uid2, uid3, uid4].filter(s => s && s.trim())
-        if (uids.length === 0) { setStatus('Enter UID for join-send-leave mode', false); return false }
 
-        // Use first UID only
-        const targetUid = uids[0]
-
-        setStatus(`Joining team → Sending emote ${emoteId} → Leaving...`)
-
-        try {
-          const params = new URLSearchParams({ tc: teamcode, uid: targetUid, emote_id: emoteId })
-          const url = `/api/join-send-leave?${params.toString()}`
-          const res = await fetch(url, { method: 'GET', cache: 'no-cache' })
-
-          if (!res.ok) {
-            const errorText = await res.text()
-            let errorMsg = `Server error (${res.status}): ${errorText}`
-            try {
-              const errorData = JSON.parse(errorText)
-              errorMsg = errorData.message || errorData.error || errorMsg
-            } catch { }
-            setStatus(`Error: ${errorMsg}`, false)
-            return false
-          }
-
-          const data = await res.json()
-          const isSuccess = data.status === 'success'
-          if (isSuccess) {
-            const successMsg = data.message ? `Success! ${data.message}` : 'Bot joined, sent emote, and left successfully!'
-            setStatus(successMsg, true)
-            addRecent(emoteId)
-            applyFilters()
-            return true
-          }
-          const message = data.message || JSON.stringify(data)
-          setStatus(`Response: ${message}`, res.ok)
-          return false
-        } catch (e) {
-          let errorMsg = e.message
-          if (e.message === 'Failed to fetch' || (e.message && (e.message.includes('NetworkError') || e.message.includes('network')))) {
-            errorMsg = `Network error: Unable to connect to server. Please try again.`
-          }
-          setStatus(`Error: ${errorMsg}`, false)
-          return false
-        }
-      }
 
       // Original logic for other modes
       const uids = [uid1, uid2, uid3, uid4].filter(s => s && s.trim())
