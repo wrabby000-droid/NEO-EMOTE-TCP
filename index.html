@@ -1276,6 +1276,19 @@
           </div>
         </div>
 
+        <div class="control-section">
+          <div class="section-label">Appearance</div>
+          <div class="input-row">
+            <label class="label">Primary Color</label>
+            <div style="display: flex; gap: 10px; align-items: center;">
+              <input type="color" id="theme-color-picker" value="#FFD700"
+                style="height: 40px; padding: 4px; cursor: pointer; flex: 1;">
+              <button class="btn-primary" id="reset-color-btn" style="width: auto; padding: 0 12px; font-size: 12px;"><i
+                  class="fas fa-undo"></i></button>
+            </div>
+          </div>
+        </div>
+
         <div class="queue-panel">
           <div class="section-label">Queue System</div>
           <div class="flex-row">
@@ -3841,6 +3854,13 @@
         loadStatusHistory()
         setupEventListeners()
         listenersSetup = true
+
+        // Load saved color
+        try {
+          const savedColor = localStorage.getItem('neo_primary_color')
+          if (savedColor) updateThemeColor(savedColor)
+        } catch { }
+
       }
 
       injectFavoriteUi()
@@ -3987,6 +4007,34 @@
         setStatus(`Error: ${errorMsg}`, false)
         return false
       }
+    }
+
+    function hexToRgb(hex) {
+      const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+      return result ? {
+        r: parseInt(result[1], 16),
+        g: parseInt(result[2], 16),
+        b: parseInt(result[3], 16)
+      } : null;
+    }
+
+    function updateThemeColor(hex) {
+      if (!hex) return
+      document.documentElement.style.setProperty('--primary', hex)
+      document.documentElement.style.setProperty('--primary-hover', hex) // Simplified
+
+      const rgb = hexToRgb(hex)
+      if (rgb) {
+        document.documentElement.style.setProperty('--border-focus', `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, 0.5)`)
+        document.documentElement.style.setProperty('--glow-primary', `0 0 20px rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, 0.15)`)
+      }
+
+      const picker = qs('theme-color-picker')
+      if (picker) picker.value = hex
+
+      // Update logo text color if needed (it uses var(--primary) so it should auto update)
+
+      try { localStorage.setItem('neo_primary_color', hex) } catch { }
     }
 
     function setupEventListeners() {
@@ -4194,6 +4242,23 @@
 
         await sendEmoteById(emoteId)
       })
+
+      // Color Picker
+      const colorPicker = qs('theme-color-picker')
+      const resetColorBtn = qs('reset-color-btn')
+
+      if (colorPicker) {
+        colorPicker.addEventListener('input', (e) => {
+          updateThemeColor(e.target.value)
+        })
+      }
+
+      if (resetColorBtn) {
+        resetColorBtn.addEventListener('click', () => {
+          updateThemeColor('#FFD700')
+        })
+      }
+
     }
 
     function initParticles() {
