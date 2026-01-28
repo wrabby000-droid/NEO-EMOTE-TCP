@@ -2,11 +2,11 @@
   "rewrites": [
     {
       "source": "/api/fastemote",
-      "destination": "http://46.247.108.191:30122/fastemote"
+      "destination": "http://92.118.206.166:30300/fastemote"
     },
     {
       "source": "/api/join",
-      "destination": "http://46.247.108.191:30122/join"
+      "destination": "http://92.118.206.166:30300/join"
     },
     {
       "source": "/(.*)",
@@ -25,3 +25,4 @@
     }
   ]
 }
+
