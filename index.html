@@ -1391,6 +1391,7 @@
 
       <div class="categories-bar categories">
         <!-- Categories buttons will be injected or here -->
+        <button class="cat-btn special-filter" data-view="favorites"><i class="fas fa-star"></i> Favorites</button>
         <button class="cat-btn" data-category="Page 1" data-emote-codes="909000">Page 1</button>
         <button class="cat-btn" data-category="Page 2"
           data-emote-codes="909033,909034,909035,909036,909037,909038,909039">Page 2</button>
@@ -4237,11 +4238,21 @@
           // add active to clicked button
           btn.classList.add('active')
 
+          // Handle special view filters (Favorites)
+          if (btn.classList.contains('special-filter')) {
+            const view = btn.dataset.view
+            currentView = view
+            currentCategoryCodes = null
+            resetPagination()
+            applyFilters()
+            return
+          }
+
+          // Normal categories: reset view to 'all'
+          currentView = 'all'
+
           const category = btn.dataset.category
           const emoteCodes = btn.dataset.emoteCodes
-
-          // get all cells
-          const cells = grid.querySelectorAll('.cell')
 
           if (category === 'All' || !emoteCodes) {
             currentCategoryCodes = null
