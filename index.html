@@ -1291,7 +1291,6 @@
             <label class="label">Mode</label>
             <select id="mode-select">
               <option value="fastemote">Fast Emote</option>
-              <option value="fastemote_nodelay">Instant (No Delay)</option>
               <option value="joinemote">Join Emote</option>
 
             </select>
@@ -4004,10 +4003,10 @@
       const uids = [uid1, uid2, uid3, uid4].filter(s => s && s.trim())
       if (uids.length === 0) { setStatus('Enter at least one UID', false); return false }
 
-      const isFast = currentMode === 'fastemote' || currentMode === 'fastemote_nodelay'
+      const isFast = currentMode === 'fastemote'
 
-      // Cooldown (rate limit send) – disabled for No Delay (Instant)
-      if (currentMode !== 'fastemote_nodelay') {
+      // Cooldown (rate limit send) – disabled for Fast Emote
+      if (!isFast) {
         const now = Date.now()
         const remainingMs = cooldownMs - (now - lastSendAt)
         if (remainingMs > 0) {
@@ -4017,7 +4016,7 @@
         }
       }
 
-      if (currentMode !== 'fastemote_nodelay') lastSendAt = Date.now()
+      if (!isFast) lastSendAt = Date.now()
 
       const modeName = isFast ? 'fast' : 'join'
       setStatus(`Sending ${modeName} emote ${emoteId}...`)
