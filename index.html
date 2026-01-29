@@ -3642,7 +3642,7 @@
         return
       }
       el.innerHTML = statusHistory.slice(0, 10).map(item => {
-        const left = `${item.ok ? 'âœ…' : 'âš ï¸'} ${item.text}`
+        const left = `${item.ok ? '.' : '.'} ${item.text}`
         const right = item.time || ''
         return `<div class="row"><div class="left">${left}</div><div class="right">${right}</div></div>`
       }).join('')
